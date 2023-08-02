@@ -48,12 +48,17 @@ namespace SubwayPOS
                 if (reader.Read())
                 {
 <<<<<<< HEAD
+<<<<<<< HEAD
                     HomeScreen homeScreenMain = new HomeScreen(int.Parse(reader["USERID"].ToString()), reader["USERNAME"].ToString());
                     homeScreenMain.Show();
 =======
                     PunchingScreenMain punchScreenMain = new PunchingScreenMain(int.Parse(reader["USERID"].ToString()), reader["USERNAME"].ToString());
                     punchScreenMain.Show();
 >>>>>>> 76e3b78e9f36ca3a0ec9af1742a11a1023e68fed
+=======
+                    PunchingScreenMain punchScreenMain = new PunchingScreenMain(int.Parse(reader["USERID"].ToString()), reader["USERNAME"].ToString());
+                    punchScreenMain.Show();
+>>>>>>> secondmain
                     Hide();
                 }
                 else

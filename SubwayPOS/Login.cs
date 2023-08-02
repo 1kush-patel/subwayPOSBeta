@@ -18,7 +18,7 @@ namespace SubwayPOS
             InitializeComponent();
         }
 
-        public string connectionString = "Data Source=(localdb)\\ProjectModels;Initial Catalog=Subway;Integrated Security=True";
+        public string connectionString = "Data Source = DESKTOP - L6VKGRE; Initial Catalog = Subway; Integrated Security = True";
 
         private void Login_Load(object sender, EventArgs e)
         {
@@ -42,25 +42,19 @@ namespace SubwayPOS
                 int passWord;
                 passWord = int.TryParse(txt_password.Text, out passWord) ? int.Parse(txt_password.Text) : throw new FormatException("passWord");
 
+                SqlDataReader reader = Model.authenticateUser(userId, passWord);
 
-                //QUERY TO AUTHENTICATE USER
-                string authenticationQurery = "SELECT USERID, USERNAME, PASSWORD FROM USERS " +
-                    "WHERE USERID = @ID AND PASSWORD = @PASSWORD";
-
-                SqlConnection con = new SqlConnection(connectionString);
-                con.Open();
-
-                SqlCommand cmd = new SqlCommand(authenticationQurery, con);
-                cmd.Parameters.AddWithValue("ID", userId);
-                cmd.Parameters.AddWithValue("PASSWORD", passWord);
-                SqlDataReader reader = cmd.ExecuteReader();
 
                 if (reader.Read())
                 {
-                    PunchingScreenMain punchScreenMain = new PunchingScreenMain(3, "shdh");
+<<<<<<< HEAD
+                    HomeScreen homeScreenMain = new HomeScreen(int.Parse(reader["USERID"].ToString()), reader["USERNAME"].ToString());
+                    homeScreenMain.Show();
+=======
+                    PunchingScreenMain punchScreenMain = new PunchingScreenMain(int.Parse(reader["USERID"].ToString()), reader["USERNAME"].ToString());
                     punchScreenMain.Show();
-
-
+>>>>>>> 76e3b78e9f36ca3a0ec9af1742a11a1023e68fed
+                    Hide();
                 }
                 else
                 {
@@ -68,8 +62,6 @@ namespace SubwayPOS
                     txt_password.Text = "";
                     MessageBox.Show("Incorrect User Id or Password.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                con.Close();
-
             }
             catch (System.FormatException ex)
             {
@@ -85,6 +77,10 @@ namespace SubwayPOS
                     txt_userId.Focus();
                     MessageBox.Show("Please enter valid numeric value for Password.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.GetType());
             }
         }
     }
